@@ -7,6 +7,8 @@ var flash: Tween
 var clicks: int = 0
 var base_scale: Vector2
 
+var spawn_radius: float = 240.0
+
 func _ready() -> void:
 	base_scale = sprite.scale
 
@@ -36,16 +38,22 @@ func white():
 func spawn_label() -> void:
 	var label = Label.new()
 	label.text = "+1"
+	label.add_theme_font_size_override("font_size", 28)
 	
-	label.global_position = get_global_mouse_position() + Vector2(randf_range(-12, 12), -20)
+	var random_offset = Vector2.RIGHT.rotated(randf() * TAU) * randf_range(20, spawn_radius)
+	label.global_position = global_position + random_offset
+	
 	get_tree().current_scene.add_child(label)
 	
 	var tween := label.create_tween().set_parallel(true)
-	tween.tween_property(label, "position:y", label.position.y - 40, 0.5)\
-		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label, "modulate:a", 0.0, 0.5)
-	tween.chain().tween_callback(label.queue_free)
+	label.scale = Vector2(0.5, 0.5)
+	tween.tween_property(label, "scale", Vector2(1.2, 1.2), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
+	tween.tween_property(label, "position:y", label.position.y - 60, 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label, "modulate:a", 0.0, 0.6).set_delay(0.1)
+	
+	tween.chain().tween_callback(label.queue_free)
+
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
