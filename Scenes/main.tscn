@@ -16,6 +16,32 @@ offset_right = 1314.0
 offset_bottom = 849.0
 texture = ExtResource("1_jjgbg")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=840669931]
+
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=2024810917]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer/HUD" unique_id=1438779838]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
 [node name="Clicker" type="Sprite2D" parent="." unique_id=261641046]
 texture_filter = 1
 position = Vector2(531, 297)

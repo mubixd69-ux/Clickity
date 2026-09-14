@@ -1,16 +1,42 @@
 extends Sprite2D
 
 @onready var sprite: Sprite2D = $"."
+@onready var score_label: RichTextLabel = $"../CanvasLayer/HUD/ScoreLabel"
 
 var bounce: Tween
 var flash: Tween
+var score: Tween
+
 var clicks: int = 0
 var base_scale: Vector2
+var label_base_scale: Vector2 = Vector2.ONE
 
 var spawn_radius: float = 240.0
 
+	
+func update_score_ui() -> void:
+	if not score_label:
+		return
+		
+		
+	score_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFE082]" + str(clicks) + " Bread[/color][/wave][/center]"
+	
+	score_label.pivot_offset = score_label.size / 2.0
+	
+	if score and score.is_valid():
+		score.kill()
+		
+	score_label.scale = label_base_scale * 1.25
+	score = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	score.tween_property(score_label, "scale", label_base_scale, 0.2)
+
 func _ready() -> void:
 	base_scale = sprite.scale
+	
+	if score_label:
+		score_label.pivot_offset = score_label.size / 2.0
+		label_base_scale = score_label.scale
+		update_score_ui()
 
 func _on_area_2d_mouse_entered() -> void:
 	print("1")
@@ -62,3 +88,4 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 			white()
 			animate()
 			spawn_label()
+			update_score_ui()
