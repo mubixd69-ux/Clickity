@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://3ooo3o2gojdf"]
+
+[ext_resource type="Texture2D" uid="uid://cujlf2abtf1r0" path="res://Assets/basic yellow/button square hover.png" id="1_jjgbg"]
+
+[node name="Main" type="Node2D" unique_id=734328428]
+
+[node name="ButtonSquareHover" type="Sprite2D" parent="." unique_id=192060099]
+position = Vector2(540, 344.5)
+scale = Vector2(14.283334, 8.425)
+texture = ExtResource("1_jjgbg")
