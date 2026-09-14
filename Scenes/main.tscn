@@ -32,11 +32,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_left = -216.0
+offset_right = 216.0
+offset_bottom = 86.0
 grow_horizontal = 2
 mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
@@ -44,10 +45,11 @@ horizontal_alignment = 1
 
 [node name="Clicker" type="Sprite2D" parent="." unique_id=261641046]
 texture_filter = 1
-position = Vector2(531, 297)
+position = Vector2(573, 301)
 scale = Vector2(16, 13.421)
 texture = ExtResource("2_8gbba")
 script = ExtResource("3_jjvhh")
+metadata/_edit_group_ = true
 
 [node name="Area2D" type="Area2D" parent="Clicker" unique_id=1111278829]
 

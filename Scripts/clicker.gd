@@ -19,7 +19,7 @@ func update_score_ui() -> void:
 		return
 		
 		
-	score_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFE082]" + str(clicks) + " Bread[/color][/wave][/center]"
+	score_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFFFFF]" + str(clicks) + " Bread[/color][/wave][/center]"
 	
 	score_label.pivot_offset = score_label.size / 2.0
 	
