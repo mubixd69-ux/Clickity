@@ -1,10 +1,33 @@
 [gd_scene format=3 uid="uid://3ooo3o2gojdf"]
 
 [ext_resource type="Texture2D" uid="uid://cujlf2abtf1r0" path="res://Assets/basic yellow/button square hover.png" id="1_jjgbg"]
+[ext_resource type="Texture2D" uid="uid://bbbqq85m4bi6s" path="res://Assets/pastry_bread.png" id="2_8gbba"]
+[ext_resource type="Script" uid="uid://dp7bwnuc2i2qt" path="res://Scripts/clicker.gd" id="3_jjvhh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e6q6n"]
+radius = 8.562824
 
 [node name="Main" type="Node2D" unique_id=734328428]
 
-[node name="ButtonSquareHover" type="Sprite2D" parent="." unique_id=192060099]
-position = Vector2(540, 344.5)
-scale = Vector2(14.283334, 8.425)
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1475498779]
+offset_left = -198.0
+offset_top = -180.0
+offset_right = 1314.0
+offset_bottom = 849.0
 texture = ExtResource("1_jjgbg")
+
+[node name="Clicker" type="Sprite2D" parent="." unique_id=261641046]
+texture_filter = 1
+position = Vector2(531, 297)
+scale = Vector2(16, 13.421)
+texture = ExtResource("2_8gbba")
+script = ExtResource("3_jjvhh")
+
+[node name="Area2D" type="Area2D" parent="Clicker" unique_id=1111278829]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Clicker/Area2D" unique_id=73267924]
+shape = SubResource("CircleShape2D_e6q6n")
+
+[connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_exited"]
