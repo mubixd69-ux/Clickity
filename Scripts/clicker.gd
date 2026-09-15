@@ -9,26 +9,18 @@ var flash: Tween
 var score: Tween
 
 var clicks: int = 0
+var auto_clicker_cost: int = 500
+var auto_clickers: int = 0
+var upgrade_cost: int = 10
+var click_power: int = 1
 var base_scale: Vector2
 var label_base_scale: Vector2 = Vector2.ONE
 
 var spawn_radius: float = 240.0
 
-var timestamp: Array[float] = []
-var sample_window: float = 3
-var current_sample_window_time: float = 0.0 
-var clicks_in_sample_window: float = 0.0
-var current_bpm: float = 0.0
+var bread_earned_this_second: int = 0
+var current_bpm: int = 0
 
-func _process(delta: float) -> void:
-	if current_sample_window_time <= 0:
-		current_sample_window_time = sample_window
-		current_bpm = clicks_in_sample_window / sample_window
-		clicks_in_sample_window = 0
-		update_bpm_ui()
-	else:
-		current_sample_window_time -= delta
-		print(clicks_in_sample_window)
 
 func update_score_ui() -> void:
 	if not score_label:
@@ -51,9 +43,19 @@ func update_bpm_ui() -> void:
 		return
 		
 	
-	bpm_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFFFFF]" + str(current_bpm).pad_decimals(2) + " BPS[/color]"
+		
+	
+	bpm_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFFFFF]" + str(clicks) + " BPM[/color][/center]"
+
+
 
 func _ready() -> void:
+	var auto_timer := Timer.new()
+	auto_timer.wait_time = 1.0
+	auto_timer.autostart = true
+	auto_timer.timeout.connect(auto_click)
+	add_child(auto_timer)
+
 	base_scale = sprite.scale
 	
 	if score_label:
@@ -61,20 +63,29 @@ func _ready() -> void:
 		label_base_scale = score_label.scale
 		update_score_ui()
 		update_bpm_ui()
+	
+	var bpm_timer := Timer.new()
+	bpm_timer.wait_time = 1.0
+	bpm_timer.autostart = true
+	bpm_timer.timeout.connect(bpm_timer_timeout)
+	add_child(bpm_timer)
 
-
+func bpm_timer_timeout() -> void:
+	current_bpm = bread_earned_this_second * 60
+	bread_earned_this_second = 0
+	update_bpm_ui()
 	
 func add_bread(amount: int) -> void:
 	clicks += amount
-	clicks_in_sample_window += amount
-	update_score_ui()
+	bread_earned_this_second += amount
+	update_bpm_ui()
 
 func _on_area_2d_mouse_entered() -> void:
-	pass
+	print("1")
 
 
 func _on_area_2d_mouse_exited() -> void:
-	pass
+	print("2")
 
 func animate() -> void:
 	if bounce and bounce.is_valid():
@@ -94,7 +105,7 @@ func white():
 	
 func spawn_label() -> void:
 	var label = Label.new()
-	label.text = "+1"
+	label.text = "+" + str(click_power)
 	label.add_theme_font_size_override("font_size", 28)
 	
 	var random_offset = Vector2.RIGHT.rotated(randf() * TAU) * randf_range(20, spawn_radius)
@@ -114,8 +125,48 @@ func spawn_label() -> void:
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			add_bread(1)
+			add_bread(click_power)
+			print(clicks)
 			white()
 			animate()
 			spawn_label()
 			update_score_ui()
+
+
+
+
+#fnc _on_upgrade_button_pressed() -> void:
+	# clicks >= upgrade_cost:
+	#clicks -= upgrade_cost
+	#click_power *= 2
+	#update_score_ui()
+
+func _on_button_pressed() -> void:
+	print("BUTTON CLICKED")
+	print("Clicks: ", clicks)
+	print("Cost: ", upgrade_cost)
+	print("Power: ", click_power)
+
+	if clicks >= upgrade_cost:
+		print("ENOUGH BREAD")
+		clicks -= upgrade_cost
+		click_power += 1
+		print("UPGRADE! Click power is now ", click_power)
+		update_score_ui()
+	else:
+		print("NOT ENOUGH BREAD")
+		
+		
+
+func auto_click():
+	if auto_clickers >= 0:
+		add_bread(auto_clickers)
+		update_score_ui()
+
+
+func _on_button_2_pressed() -> void:
+	if clicks >= auto_clicker_cost:
+		clicks -= auto_clicker_cost
+		auto_clickers += 1
+		update_score_ui()
+		
