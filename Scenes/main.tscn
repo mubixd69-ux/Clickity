@@ -1,8 +1,12 @@
 [gd_scene format=3 uid="uid://3ooo3o2gojdf"]
 
-[ext_resource type="Texture2D" uid="uid://cujlf2abtf1r0" path="res://Assets/basic yellow/button square hover.png" id="1_jjgbg"]
-[ext_resource type="Texture2D" uid="uid://bbbqq85m4bi6s" path="res://Assets/pastry_bread.png" id="2_8gbba"]
+[ext_resource type="Texture2D" uid="uid://dsupga52vcolo" path="res://Asset/basic yellow/button square hover.png" id="1_8gbba"]
+[ext_resource type="Script" uid="uid://c7ow0ntaecvlo" path="res://Scripts/sidebar.gd" id="2_344ge"]
+[ext_resource type="Texture2D" uid="uid://cm3oyp8g3lyex" path="res://Asset/pastry_bread.png" id="2_jjvhh"]
 [ext_resource type="Script" uid="uid://dp7bwnuc2i2qt" path="res://Scripts/clicker.gd" id="3_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://d0s4ox0njxpec" path="res://Asset/pastry_baguette.png" id="4_kry3j"]
+[ext_resource type="Texture2D" uid="uid://dvoj78meanuit" path="res://Asset/coffee_darkroast.png" id="5_21xkr"]
+[ext_resource type="Texture2D" uid="uid://x73i3ya8g162" path="res://Asset/basic yellow/button wide idle.png" id="6_21xkr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e6q6n"]
 radius = 8.562824
@@ -14,27 +18,119 @@ offset_left = -198.0
 offset_top = -180.0
 offset_right = 1314.0
 offset_bottom = 849.0
-texture = ExtResource("1_jjgbg")
+texture = ExtResource("1_8gbba")
+
+[node name="Clicker" type="Sprite2D" parent="." unique_id=261641046]
+texture_filter = 1
+position = Vector2(573, 301)
+scale = Vector2(16, 13.421)
+texture = ExtResource("2_jjvhh")
+script = ExtResource("3_jjvhh")
+metadata/_edit_group_ = true
+
+[node name="Area2D" type="Area2D" parent="Clicker" unique_id=1111278829]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Clicker/Area2D" unique_id=73267924]
+shape = SubResource("CircleShape2D_e6q6n")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=840669931]
+layer = 0
 
-[node name="HUD" type="Control" parent="CanvasLayer" unique_id=2024810917]
+[node name="Sidebar" type="Control" parent="CanvasLayer" unique_id=651354889]
+custom_minimum_size = Vector2(1152, 648)
+clip_contents = true
 layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("2_344ge")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/Sidebar" unique_id=755928330]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("6_21xkr")
+region_rect = Rect2(2.5, 1.5, 317.5, 118.5)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Upgrades_panel" type="Control" parent="CanvasLayer/Sidebar" unique_id=674591606]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Upgrades_container" type="Node2D" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=1161732494]
+
+[node name="clicks_upgrade" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=2072499672]
+texture_filter = 1
+position = Vector2(11, 12)
+scale = Vector2(4, 4)
+texture = ExtResource("4_kry3j")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="Button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade" unique_id=1522564580]
+z_index = 1
+offset_right = 103.0
+offset_bottom = 16.0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 2
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Auto_clicker" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=900901511]
+texture_filter = 1
+position = Vector2(11, 78)
+scale = Vector2(4, 4)
+texture = ExtResource("5_21xkr")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="Button2" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker" unique_id=1135174663]
+z_index = 1
+offset_right = 61.25
+offset_bottom = 16.0
+mouse_filter = 1
+flat = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="HUD" type="Control" parent="." unique_id=2024810917]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -2.0
+offset_right = 1139.0
+offset_bottom = 646.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer/HUD" unique_id=1438779838]
+[node name="ScoreLabel" type="RichTextLabel" parent="HUD" unique_id=1438779838]
+z_index = 2
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -216.0
-offset_right = 216.0
-offset_bottom = 86.0
+offset_left = -213.0
+offset_top = 1.0
+offset_right = 219.0
+offset_bottom = 87.0
 grow_horizontal = 2
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 24
@@ -43,7 +139,8 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="BPM" type="RichTextLabel" parent="CanvasLayer/HUD" unique_id=814201803]
+[node name="BPM" type="RichTextLabel" parent="HUD" unique_id=814201803]
+z_index = 2
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -58,33 +155,8 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="Clicker" type="Sprite2D" parent="." unique_id=261641046]
-texture_filter = 1
-position = Vector2(573, 301)
-scale = Vector2(16, 13.421)
-texture = ExtResource("2_8gbba")
-script = ExtResource("3_jjvhh")
-metadata/_edit_group_ = true
-
-[node name="Area2D" type="Area2D" parent="Clicker" unique_id=1111278829]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Clicker/Area2D" unique_id=73267924]
-shape = SubResource("CircleShape2D_e6q6n")
-
-[node name="Button" type="Button" parent="." unique_id=1518841214]
-offset_right = 238.0
-offset_bottom = 130.0
-text = "upgrade (costs 10 bread)"
-
-[node name="Button2" type="Button" parent="." unique_id=2109929586]
-offset_left = -17.0
-offset_top = 443.0
-offset_right = 464.0
-offset_bottom = 640.0
-text = "autoclicker(500)"
-
 [connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_exited"]
-[connection signal="pressed" from="Button" to="Clicker" method="_on_button_pressed"]
-[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade/Button" to="Clicker" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker/Button2" to="Clicker" method="_on_button_2_pressed"]

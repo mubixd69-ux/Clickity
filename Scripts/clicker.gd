@@ -1,8 +1,9 @@
 extends Sprite2D
 
 @onready var sprite: Sprite2D = $"."
-@onready var score_label: RichTextLabel = $"../CanvasLayer/HUD/ScoreLabel"
-@onready var bpm_label: RichTextLabel = $"../CanvasLayer/HUD/BPM"
+@onready var score_label: RichTextLabel = $"../HUD/ScoreLabel"
+@onready var bpm_label: RichTextLabel = $"../HUD/BPM"
+
 
 var bounce: Tween
 var flash: Tween
@@ -18,8 +19,21 @@ var label_base_scale: Vector2 = Vector2.ONE
 
 var spawn_radius: float = 240.0
 
-var bread_earned_this_second: int = 0
-var current_bpm: int = 0
+var timestamp: Array[float] = []
+var sample_window: float = 3
+var current_sample_window_time: float = 0.0 
+var clicks_in_sample_window: float = 0.0
+var current_bpm: float = 0.0
+
+func _process(delta: float) -> void:
+	if current_sample_window_time <= 0:
+		current_sample_window_time = sample_window
+		current_bpm = clicks_in_sample_window / sample_window
+		clicks_in_sample_window = 0
+		update_bpm_ui()
+	else:
+		current_sample_window_time -= delta
+		print(clicks_in_sample_window)
 
 
 func update_score_ui() -> void:
@@ -45,7 +59,7 @@ func update_bpm_ui() -> void:
 	
 		
 	
-	bpm_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFFFFF]" + str(clicks) + " BPM[/color][/center]"
+	bpm_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFFFFF]" + str(current_bpm).pad_decimals(2) + " BPS[/color]"
 
 
 
@@ -64,28 +78,19 @@ func _ready() -> void:
 		update_score_ui()
 		update_bpm_ui()
 	
-	var bpm_timer := Timer.new()
-	bpm_timer.wait_time = 1.0
-	bpm_timer.autostart = true
-	bpm_timer.timeout.connect(bpm_timer_timeout)
-	add_child(bpm_timer)
-
-func bpm_timer_timeout() -> void:
-	current_bpm = bread_earned_this_second * 60
-	bread_earned_this_second = 0
-	update_bpm_ui()
 	
+
 func add_bread(amount: int) -> void:
-	clicks += amount
-	bread_earned_this_second += amount
-	update_bpm_ui()
+	clicks +=amount
+	clicks_in_sample_window += amount
+	update_score_ui()
 
 func _on_area_2d_mouse_entered() -> void:
-	print("1")
+	pass
 
 
 func _on_area_2d_mouse_exited() -> void:
-	print("2")
+	pass
 
 func animate() -> void:
 	if bounce and bounce.is_valid():
@@ -126,7 +131,6 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			add_bread(click_power)
-			print(clicks)
 			white()
 			animate()
 			spawn_label()
