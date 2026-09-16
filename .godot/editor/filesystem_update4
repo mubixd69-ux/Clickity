@@ -1,9 +1,3 @@
-res://button.gd
-res://addons/godot_super-wakatime/api_key_prompt.tscn
-res://addons/godot_super-wakatime/counter.tscn
-res://addons/godot_super-wakatime/godot_super-wakatime.gd
-res://addons/godot_super-wakatime/utils.gd
-res://Scripts/button.gd
 res://Scripts/clicker.gd
 res://Scenes/main.tscn
-res://Scenes/button.gd
+res://Scenes/button_2.gd

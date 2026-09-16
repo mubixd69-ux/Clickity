@@ -2,3 +2,6 @@
 *.md5
 *.ctex
 *.cache
+.godot/editor/filesystem_update4
+.godot/editor/create_recent.Node
+.godot/editor/filesystem_cache10
