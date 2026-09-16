@@ -2,3 +2,17 @@
 *.md5
 *.ctex
 *.cache
+.godot/editor/favorites
+.godot/editor/favorite_properties
+.godot/editor/filesystem_cache10
+.godot/editor/filesystem_update4
+.godot/editor/filesystem_cache10
+.godot/editor/filesystem_update4
+.godot/uid_cache.bin
+.godot/editor/filesystem_cache10
+Asset/coffee_espresso.png.import
+Asset/coffee_espresso.png
+.godot/uid_cache.bin
+.godot/editor/filesystem_update4
+/.godot/editor
+/.godot
