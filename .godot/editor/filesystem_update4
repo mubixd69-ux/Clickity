@@ -1,3 +1,6 @@
 res://Scenes/main.tscn
 res://Scripts/clicker.gd
 res://Scripts/Vigennete.gdshader
+res://Scripts/clicker.gd
+res://Scenes/main.tscn
+res://Scenes/button_2.gd

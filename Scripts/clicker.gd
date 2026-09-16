@@ -7,6 +7,9 @@ extends Sprite2D
 @onready var vigenette_overlay: ColorRect = $"../CanvasLayer/Vigenette"
 
 
+@onready var falling_button3 = $"../Button2"
+
+var double_rain_timer = Timer
 var bounce: Tween
 var flash: Tween
 var score: Tween
@@ -14,6 +17,9 @@ var score: Tween
 var clicks: int = 0
 var auto_clicker_cost: int = 500
 var auto_clickers: int = 0
+var falling3 = false
+var double_clicks: bool = false
+var double_timer : Timer 
 var upgrade_cost: float = 10
 var upgrade_level : float = 1
 var click_power: int = 1
@@ -28,13 +34,26 @@ var current_sample_window_time: float = 0.0
 var clicks_in_sample_window: float = 0.0
 var current_bpm: float = 0.0
 
+func spawn_falling_button2():
+	if falling3 or double_clicks:
+		return
+	falling_button2.visible = true
+	falling_button2.position.x = randf_range(0, 1000)
+	falling_button2.position.y = -100
+	falling = true
 
 func spawn_falling_button():
 	falling_button.visible = true
 	falling_button.position.x = randf_range(0, 1000)
 	falling_button.position.y = -100
 	falling = true
-	
+
+func spawn_falling_button3():
+	falling_button3.visible = true
+	falling_button3.position.x = randf_range(0, 1000)
+	falling_button3.position.y = -100
+	falling3 = true
+
 func _process(delta: float) -> void:
 	if current_sample_window_time <= 0:
 		current_sample_window_time = sample_window
@@ -47,7 +66,9 @@ func _process(delta: float) -> void:
 	
 	if falling:
 		falling_button.position.y += fall_speed * delta
-
+	
+	if falling3:
+		falling_button3.position.y += fall_speed2 * delta
 
 func update_score_ui() -> void:
 	if not score_label:
@@ -83,13 +104,34 @@ func _ready() -> void:
 	auto_timer.timeout.connect(auto_click)
 	add_child(auto_timer)
 
+	double_rain_timer = Timer.new()
+	double_rain_timer.one_shot = true
+	double_rain_timer.timeout.connect(spawn_falling_button3)
+	add_child(double_rain_timer)
 
+	double_rain_timer.start(randf_range(5.0, 20.0))
 
 	var random_timer := Timer.new()
 	random_timer.wait_time = randf_range(0.5, 15.0)
 	random_timer.autostart = true
 	random_timer.timeout.connect(spawn_falling_button)
 	add_child(random_timer)
+
+	double_timer = Timer.new()
+	double_timer.wait_time = 7.5
+	double_timer.one_shot = true
+	double_timer.timeout.connect(_on_double_timer_timeout)
+	add_child(double_timer)
+
+	var random_timer2 := Timer.new()
+	random_timer2.wait_time = randf_range(0.5, 40.0)
+	random_timer2.autostart = true
+	random_timer2.timeout.connect(spawn_falling_button2)
+	add_child(random_timer2)
+
+
+
+	falling_button3.visible = false
 
 	base_scale = sprite.scale
 	
@@ -103,7 +145,10 @@ func _ready() -> void:
 
 
 func add_bread(amount: int) -> void:
-	clicks +=amount
+	if double_clicks:
+		amount *= 2
+
+	clicks += amount
 	clicks_in_sample_window += amount
 	update_score_ui()
 
@@ -201,12 +246,14 @@ func _on_button_2_pressed() -> void:
 		
 		
 		
+		
 
 @onready var falling_button = $"../Button1"
+@onready var falling_button2 = $"../Button2"
 
 var falling = false
 var fall_speed = 250.0
-
+var fall_speed2 = 400.0
 
 
 
@@ -240,3 +287,18 @@ func trigger_frenzy() -> void:
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	sequence.parallel().tween_property(vigenette_overlay, "modulate:a", 0.0, 0.5)\
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
+func _on_button_3_pressed() -> void:
+	falling_button3.visible = false
+	falling3 = false
+	
+	double_clicks = true
+	double_timer.start()
+	
+
+
+func _on_double_timer_timeout() -> void:
+	double_clicks = false
+	
+	double_rain_timer.start(randf_range(5.0, 20.0))
+	

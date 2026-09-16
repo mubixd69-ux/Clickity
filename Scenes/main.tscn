@@ -201,6 +201,9 @@ texture_filter = 1
 position = Vector2(11, 10)
 texture = ExtResource("5_21xkr")
 metadata/_edit_group_ = true
+[node name="Button2" type="Button" parent="." unique_id=479346817]
+offset_right = 302.0
+offset_bottom = 199.0
 
 [connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
@@ -208,3 +211,5 @@ metadata/_edit_group_ = true
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade/Button" to="Clicker" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker/Button2" to="Clicker" method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button1" to="Clicker" method="_on_button_1_pressed"]
+[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_3_pressed"]
