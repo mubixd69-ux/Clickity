@@ -155,8 +155,18 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
+[node name="Button1" type="Button" parent="." unique_id=2072112849]
+offset_right = 225.0
+offset_bottom = 139.0
+
+[node name="Label" type="Label" parent="." unique_id=776057459]
+offset_top = 228.0
+offset_right = 283.0
+offset_bottom = 357.0
+
 [connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_exited"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade/Button" to="Clicker" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker/Button2" to="Clicker" method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button1" to="Clicker" method="_on_button_1_pressed"]

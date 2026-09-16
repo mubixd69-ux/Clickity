@@ -5,6 +5,7 @@ extends Sprite2D
 @onready var bpm_label: RichTextLabel = $"../HUD/BPM"
 
 
+
 var bounce: Tween
 var flash: Tween
 var score: Tween
@@ -12,7 +13,8 @@ var score: Tween
 var clicks: int = 0
 var auto_clicker_cost: int = 500
 var auto_clickers: int = 0
-var upgrade_cost: int = 10
+var upgrade_cost: float = 10
+var upgrade_level : float = 1
 var click_power: int = 1
 var base_scale: Vector2
 var label_base_scale: Vector2 = Vector2.ONE
@@ -25,6 +27,13 @@ var current_sample_window_time: float = 0.0
 var clicks_in_sample_window: float = 0.0
 var current_bpm: float = 0.0
 
+
+func spawn_falling_button():
+	falling_button.visible = true
+	falling_button.position.x = randf_range(0, 1000)
+	falling_button.position.y = -100
+	falling = true
+	
 func _process(delta: float) -> void:
 	if current_sample_window_time <= 0:
 		current_sample_window_time = sample_window
@@ -34,6 +43,9 @@ func _process(delta: float) -> void:
 	else:
 		current_sample_window_time -= delta
 		print(clicks_in_sample_window)
+	
+	if falling:
+		falling_button.position.y += fall_speed * delta
 
 
 func update_score_ui() -> void:
@@ -70,6 +82,14 @@ func _ready() -> void:
 	auto_timer.timeout.connect(auto_click)
 	add_child(auto_timer)
 
+
+
+	var random_timer := Timer.new()
+	random_timer.wait_time = randf_range(0.5, 15.0)
+	random_timer.autostart = true
+	random_timer.timeout.connect(spawn_falling_button)
+	add_child(random_timer)
+
 	base_scale = sprite.scale
 	
 	if score_label:
@@ -78,7 +98,8 @@ func _ready() -> void:
 		update_score_ui()
 		update_bpm_ui()
 	
-	
+	falling_button.visible = false
+
 
 func add_bread(amount: int) -> void:
 	clicks +=amount
@@ -156,6 +177,9 @@ func _on_button_pressed() -> void:
 		clicks -= upgrade_cost
 		click_power += 1
 		print("UPGRADE! Click power is now ", click_power)
+		upgrade_cost *= 1.5
+		upgrade_level += 0.5
+		$"../Label".text = str(upgrade_cost)
 		update_score_ui()
 	else:
 		print("NOT ENOUGH BREAD")
@@ -174,3 +198,19 @@ func _on_button_2_pressed() -> void:
 		auto_clickers += 1
 		update_score_ui()
 		
+		
+		
+
+@onready var falling_button = $"../Button1"
+
+var falling = false
+var fall_speed = 250.0
+
+
+
+
+func _on_button_1_pressed() -> void:
+	clicks += 10 * upgrade_level
+	falling_button.visible = false
+	update_score_ui()
+	
