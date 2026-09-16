@@ -7,9 +7,17 @@
 [ext_resource type="Texture2D" uid="uid://d0s4ox0njxpec" path="res://Asset/pastry_baguette.png" id="4_kry3j"]
 [ext_resource type="Texture2D" uid="uid://dvoj78meanuit" path="res://Asset/coffee_darkroast.png" id="5_21xkr"]
 [ext_resource type="Texture2D" uid="uid://x73i3ya8g162" path="res://Asset/basic yellow/button wide idle.png" id="6_21xkr"]
+[ext_resource type="Texture2D" uid="uid://ntrv0t2wkfuq" path="res://Asset/coffee_espresso.png" id="7_344ge"]
+[ext_resource type="Shader" uid="uid://baapo1sgcreq4" path="res://Scripts/Vigennete.gdshader" id="8_ynf5e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e6q6n"]
 radius = 8.562824
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fc75"]
+shader = ExtResource("8_ynf5e")
+shader_parameter/vigenette_color = Color(0, 0, 0, 1)
+shader_parameter/inner_radius = 0.4
+shader_parameter/outer_radius = 0.9
 
 [node name="Main" type="Node2D" unique_id=734328428]
 
@@ -94,7 +102,7 @@ metadata/_edit_use_anchors_ = true
 texture_filter = 1
 position = Vector2(11, 78)
 scale = Vector2(4, 4)
-texture = ExtResource("5_21xkr")
+texture = ExtResource("7_344ge")
 centered = false
 metadata/_edit_group_ = true
 
@@ -106,6 +114,26 @@ mouse_filter = 1
 flat = true
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
+
+[node name="Flash_Overlay" type="ColorRect" parent="CanvasLayer" unique_id=1067288256]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Vigenette" type="ColorRect" parent="CanvasLayer" unique_id=1201126248]
+modulate = Color(1, 1, 1, 0)
+z_index = 2
+material = SubResource("ShaderMaterial_8fc75")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="HUD" type="Control" parent="." unique_id=2024810917]
 z_index = 2
@@ -155,14 +183,24 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="Button1" type="Button" parent="." unique_id=2072112849]
-offset_right = 225.0
-offset_bottom = 139.0
-
 [node name="Label" type="Label" parent="." unique_id=776057459]
 offset_top = 228.0
 offset_right = 283.0
 offset_bottom = 357.0
+
+[node name="Button1" type="Button" parent="." unique_id=2072112849]
+offset_left = -48.0
+offset_top = -43.0
+offset_right = -26.5
+offset_bottom = -21.5
+scale = Vector2(4, 4)
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Button1" unique_id=1508284510]
+texture_filter = 1
+position = Vector2(11, 10)
+texture = ExtResource("5_21xkr")
+metadata/_edit_group_ = true
 
 [connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]

@@ -3,7 +3,8 @@ extends Sprite2D
 @onready var sprite: Sprite2D = $"."
 @onready var score_label: RichTextLabel = $"../HUD/ScoreLabel"
 @onready var bpm_label: RichTextLabel = $"../HUD/BPM"
-
+@onready var flash_overlay: ColorRect = $"../CanvasLayer/Flash_Overlay"
+@onready var vigenette_overlay: ColorRect = $"../CanvasLayer/Vigenette"
 
 
 var bounce: Tween
@@ -214,3 +215,28 @@ func _on_button_1_pressed() -> void:
 	falling_button.visible = false
 	update_score_ui()
 	
+
+var frenzy_duration: float = 5.0
+
+func trigger_frenzy() -> void:
+	var sequence := create_tween()
+	
+	sequence.tween_property(flash_overlay, "modulate:a", 1.0, 0.15)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	sequence.tween_property(flash_overlay, "modulate:a", 0.0, 0.35)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	
+	sequence.tween_property(vigenette_overlay, "modulate:a", 1.0, 0.35)\
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	
+	sequence.tween_interval(frenzy_duration)
+	
+	sequence.tween_property(flash_overlay, "modulate:a", 1.0, 0.15)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	
+	sequence.tween_property(flash_overlay, "modulate:a", 0.0, 0.35)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	sequence.parallel().tween_property(vigenette_overlay, "modulate:a", 0.0, 0.5)\
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
