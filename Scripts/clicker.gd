@@ -263,7 +263,7 @@ func _on_button_1_pressed() -> void:
 	update_score_ui()
 	
 
-var frenzy_duration: float = 5.0
+var frenzy_duration: float = 6.0
 
 func trigger_frenzy() -> void:
 	var sequence := create_tween()
@@ -291,14 +291,14 @@ func trigger_frenzy() -> void:
 func _on_button_3_pressed() -> void:
 	falling_button3.visible = false
 	falling3 = false
-	
-	double_clicks = true
+	trigger_frenzy()
+	click_power *= 2
 	double_timer.start()
 	
 
 
 func _on_double_timer_timeout() -> void:
-	double_clicks = false
+	click_power /= 2
 	
 	double_rain_timer.start(randf_range(5.0, 20.0))
 	
