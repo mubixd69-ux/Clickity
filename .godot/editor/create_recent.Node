@@ -1,5 +1,6 @@
-CollisionShape2D
+RichTextLabel
 Sprite2D
+CollisionShape2D
 AnimatableBody2D
 AnimationPlayer
 TileMap
