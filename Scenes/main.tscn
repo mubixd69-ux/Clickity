@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dvoj78meanuit" path="res://Asset/coffee_darkroast.png" id="5_21xkr"]
 [ext_resource type="Texture2D" uid="uid://x73i3ya8g162" path="res://Asset/basic yellow/button wide idle.png" id="6_21xkr"]
 [ext_resource type="Shader" uid="uid://baapo1sgcreq4" path="res://Scripts/Vigennete.gdshader" id="8_ynf5e"]
+[ext_resource type="Script" uid="uid://dhit2ysyhiej0" path="res://Scenes/rebirth_button.gd" id="10_hptm8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e6q6n"]
 radius = 8.562824
@@ -46,7 +47,6 @@ stream = ExtResource("4_ynf5e")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=840669931]
 layer = 0
-visible = false
 
 [node name="Sidebar" type="Control" parent="CanvasLayer" unique_id=651354889]
 custom_minimum_size = Vector2(1152, 648)
@@ -209,6 +209,13 @@ metadata/_edit_group_ = true
 offset_right = 302.0
 offset_bottom = 199.0
 
+[node name="rebirth button" type="Button" parent="." unique_id=695179202]
+offset_left = 75.0
+offset_top = 305.0
+offset_right = 339.0
+offset_bottom = 559.0
+script = ExtResource("10_hptm8")
+
 [connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_exited"]
@@ -217,3 +224,5 @@ offset_bottom = 199.0
 [connection signal="pressed" from="Button1" to="Clicker" method="_on_button_1_pressed"]
 [connection signal="pressed" from="Button2" to="Clicker" method="_on_button_3_pressed"]
 [connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]
+[connection signal="pressed" from="rebirth button" to="Clicker" method="_on_rebirth_button_pressed"]
+[connection signal="pressed" from="rebirth button" to="rebirth button" method="_on_pressed"]
