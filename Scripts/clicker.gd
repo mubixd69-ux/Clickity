@@ -5,9 +5,11 @@ extends Sprite2D
 @onready var bpm_label: RichTextLabel = $"../HUD/BPM"
 @onready var flash_overlay: ColorRect = $"../CanvasLayer/Flash_Overlay"
 @onready var vigenette_overlay: ColorRect = $"../CanvasLayer/Vigenette"
-
+@onready var upgrades_panel = $"../CanvasLayer/Sidebar"
 
 @onready var falling_button3 = $"../Button2"
+var t1 = 0.0
+var t2 = 0.0
 
 var double_rain_timer = Timer
 var bounce: Tween
@@ -15,7 +17,12 @@ var flash: Tween
 var score: Tween
 
 var clicks: int = 0
-var auto_clicker_cost: int = 500
+var noob_auto_clicker_cost: int = 150
+var noob_upgrade_level: float = 0
+var pro_auto_clicker_cost: int = 750
+var pro_upgrade_level: float = 0
+var hacker_auto_clicker_cost: int  = 1500
+var hacker_upgrade_level: float = 0
 var auto_clickers: int = 0
 var falling3 = false
 var double_clicks: bool = false
@@ -66,9 +73,13 @@ func _process(delta: float) -> void:
 	
 	if falling:
 		falling_button.position.y += fall_speed * delta
+		t1 += delta*5
+		falling_button.position.x += sin(t1)*2
 	
 	if falling3:
 		falling_button3.position.y += fall_speed2 * delta
+		t2 += delta*5	
+		falling_button.position.x += sin(t2)*2
 
 func update_score_ui() -> void:
 	if not score_label:
@@ -89,9 +100,6 @@ func update_score_ui() -> void:
 func update_bpm_ui() -> void:
 	if not bpm_label:
 		return
-		
-	
-		
 	
 	bpm_label.text = "[center][wave amp=30.0 freq=5.0][color=#FFFFFF]" + str(current_bpm).pad_decimals(2) + " BPS[/color]"
 
@@ -129,8 +137,6 @@ func _ready() -> void:
 	random_timer2.timeout.connect(spawn_falling_button2)
 	add_child(random_timer2)
 
-
-
 	falling_button3.visible = false
 
 	base_scale = sprite.scale
@@ -142,7 +148,11 @@ func _ready() -> void:
 		update_bpm_ui()
 	
 	falling_button.visible = false
-
+	
+	update_tea_panel()
+	update_baguette_panel()
+	update_espresso_panel()
+	update_matcha_panel()
 
 func add_bread(amount: int) -> void:
 	if double_clicks:
@@ -151,7 +161,24 @@ func add_bread(amount: int) -> void:
 	clicks += amount
 	clicks_in_sample_window += amount
 	update_score_ui()
+	update_baguette_panel()
 
+func update_baguette_panel() -> void:
+	if upgrades_panel and upgrades_panel.has_method("update_baguette_ui"):
+		upgrades_panel.update_baguette_ui(upgrade_cost, upgrade_level)
+	
+func update_tea_panel() -> void:
+	if upgrades_panel and upgrades_panel.has_method("update_tea_ui"):
+		upgrades_panel.update_tea_ui(noob_auto_clicker_cost, noob_upgrade_level)
+
+func update_espresso_panel() -> void:
+	if upgrades_panel and upgrades_panel.has_method("update_espresso_ui"):
+		upgrades_panel.update_espresso_ui(pro_auto_clicker_cost, pro_upgrade_level)
+
+func update_matcha_panel() -> void:
+	if upgrades_panel and upgrades_panel.has_method("update_matcha_ui"):
+		upgrades_panel.update_matcha_ui(hacker_auto_clicker_cost, hacker_upgrade_level)
+		
 func _on_area_2d_mouse_entered() -> void:
 	pass
 
@@ -194,6 +221,35 @@ func spawn_label() -> void:
 	
 	tween.chain().tween_callback(label.queue_free)
 
+func spawn_cost_label(amount: int) -> void:
+	var label = Label.new()
+	label.text = "-" + str(amount)
+	label.add_theme_font_size_override("font_size", 28)
+	label.modulate = Color(1.0, 0.2, 0.2)
+	
+	var canvas = get_node_or_null("../CanvasLayer")
+	if canvas:
+		canvas.add_child(label)
+	else:
+		get_tree().current_scene.add_child(label)
+	
+	var spawn_pos = get_global_mouse_position() + Vector2(randf_range(-15, 15), randf_range(-15, 15))
+	label.global_position = spawn_pos
+	
+	get_tree().current_scene.add_child(label)
+	var tween:= label.create_tween().set_parallel(true)
+	label.scale = Vector2(0.5, 0.5)
+	
+	tween.tween_property(label, "scale", Vector2(1.2, 1.2), 0.15)\
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	tween.tween_property(label, "position:y", label.position.y - 60, 0.6)\
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		
+	tween.tween_property(label, "modulate:a", 0.0, 0.6).set_delay(0.1)
+	
+	tween.chain().tween_callback(label.queue_free)
+	
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -203,15 +259,6 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 			spawn_label()
 			update_score_ui()
 
-
-
-
-#fnc _on_upgrade_button_pressed() -> void:
-	# clicks >= upgrade_cost:
-	#clicks -= upgrade_cost
-	#click_power *= 2
-	#update_score_ui()
-
 func _on_button_pressed() -> void:
 	print("BUTTON CLICKED")
 	print("Clicks: ", clicks)
@@ -219,14 +266,16 @@ func _on_button_pressed() -> void:
 	print("Power: ", click_power)
 
 	if clicks >= upgrade_cost:
+		var spent: int = int(upgrade_cost)
 		print("ENOUGH BREAD")
 		clicks -= upgrade_cost
 		click_power += 1
-		print("UPGRADE! Click power is now ", click_power)
+		spawn_cost_label(spent)
 		upgrade_cost *= 1.5
 		upgrade_level += 0.5
 		$"../Label".text = str(upgrade_cost)
 		update_score_ui()
+		update_baguette_panel()
 	else:
 		print("NOT ENOUGH BREAD")
 		
@@ -239,11 +288,23 @@ func auto_click():
 		update_score_ui()
 
 
+const max_noob_level: int = 100
+
 func _on_button_2_pressed() -> void:
-	if clicks >= auto_clicker_cost:
-		clicks -= auto_clicker_cost
+	if noob_upgrade_level >= max_noob_level:
+		print("max level")
+		return
+		
+	if clicks >= noob_auto_clicker_cost:
+		var spent: int = int(noob_auto_clicker_cost)
+		clicks -= noob_auto_clicker_cost
+		spawn_cost_label(spent)
+		noob_upgrade_level += 1
+		noob_auto_clicker_cost *= 1.2
 		auto_clickers += 1
 		update_score_ui()
+		update_tea_panel()
+		
 		
 		
 		
@@ -305,3 +366,33 @@ func _on_double_timer_timeout() -> void:
 	
 	double_rain_timer.start(randf_range(5.0, 20.0))
 	
+
+const  max_pro_level: int = 3
+
+func _on_pro_button_pressed() -> void:
+	if pro_upgrade_level >= max_pro_level:
+		print("max level")
+		return
+		
+	if clicks >= pro_auto_clicker_cost:
+		var spent: int = int(pro_auto_clicker_cost)
+		clicks -= pro_auto_clicker_cost
+		spawn_cost_label(spent)
+		pro_upgrade_level += 1
+		auto_clickers += 5
+		update_score_ui()
+
+const max_hacker_level: int = 3
+
+func _on_hacker_button_pressed() -> void:
+	if hacker_upgrade_level >= max_hacker_level:
+		print("max level")
+		return
+		
+	if clicks >= hacker_auto_clicker_cost:
+		var spent: int = int(hacker_auto_clicker_cost)
+		clicks -= hacker_auto_clicker_cost
+		spawn_cost_label(spent)
+		hacker_upgrade_level += 1
+		auto_clickers += 10
+		update_score_ui()
