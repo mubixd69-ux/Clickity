@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dinftcyoct6pr"]
+
+[ext_resource type="Script" uid="uid://ppc64urc5k8n" path="res://killzone.gd" id="1_3brf5"]
+[ext_resource type="AudioStream" uid="uid://oe8r2kgrk06t" path="res://Asset/sounds/explosion.wav" id="2_n3uws"]
+
+[node name="killzone" type="Area2D" unique_id=481444408]
+collision_mask = 2
+script = ExtResource("1_3brf5")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1293632197]
+stream = ExtResource("2_n3uws")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
