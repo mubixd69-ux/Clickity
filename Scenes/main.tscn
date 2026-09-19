@@ -173,10 +173,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -153.0
-offset_top = 61.0
-offset_right = 153.0
-offset_bottom = 109.0
+offset_left = -150.0
+offset_top = 33.0
+offset_right = 156.0
+offset_bottom = 81.0
 grow_horizontal = 2
 bbcode_enabled = true
 fit_content = true
@@ -201,6 +201,7 @@ texture_filter = 1
 position = Vector2(11, 10)
 texture = ExtResource("5_21xkr")
 metadata/_edit_group_ = true
+
 [node name="Button2" type="Button" parent="." unique_id=479346817]
 offset_right = 302.0
 offset_bottom = 199.0
@@ -211,5 +212,5 @@ offset_bottom = 199.0
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade/Button" to="Clicker" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker/Button2" to="Clicker" method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button1" to="Clicker" method="_on_button_1_pressed"]
-[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button2" to="Clicker" method="_on_button_3_pressed"]
+[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]
