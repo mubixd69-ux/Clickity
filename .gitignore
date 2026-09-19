@@ -29,3 +29,7 @@ Asset/coffee_espresso.png
 *.bin
 *.ttf
 *.import
+.godot/editor/recent_dirs
+.godot/editor/filesystem_update4
+.godot/editor/filesystem_cache10
+*.bin
