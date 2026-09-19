@@ -1,5 +1,13 @@
-ColorRect
+CollisionShape2D
 Sprite2D
+AnimatableBody2D
+AnimationPlayer
+TileMap
+StaticBody2D
+Camera2D
+AnimatedSprite2D
+CharacterBody2D
+ColorRect
 Button
 Label
 TextEdit
