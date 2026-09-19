@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://d1eh5fmmvflyy"]
+
+[ext_resource type="Texture2D" uid="uid://c1de70ixf4l8d" path="res://Asset/sprites/slime_green.png" id="1_4gyqm"]
+[ext_resource type="Script" uid="uid://dy0hyp58e3hvw" path="res://enemy.gd" id="1_qi2p4"]
+[ext_resource type="PackedScene" uid="uid://dinftcyoct6pr" path="res://killzone.tscn" id="2_qi2p4"]
+[ext_resource type="AudioStream" uid="uid://oe8r2kgrk06t" path="res://Asset/sounds/explosion.wav" id="4_iifgy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
+atlas = ExtResource("1_4gyqm")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epg4t"]
+atlas = ExtResource("1_4gyqm")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yqyl"]
+atlas = ExtResource("1_4gyqm")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wujgv"]
+atlas = ExtResource("1_4gyqm")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_po753"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iifgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epg4t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yqyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wujgv")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h621j"]
+size = Vector2(14, 13)
+
+[node name="enemy" type="Node2D" unique_id=38339290]
+script = ExtResource("1_qi2p4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=587669818]
+sprite_frames = SubResource("SpriteFrames_po753")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.20441988
+
+[node name="killzone" parent="." unique_id=481444408 instance=ExtResource("2_qi2p4")]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="killzone" unique_id=1798888200]
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_h621j")
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="killzone" unique_id=718148711]
+stream = ExtResource("4_iifgy")
+
+[node name="ray cast right" type="RayCast2D" parent="." unique_id=253026996]
+target_position = Vector2(9, 0)
+
+[node name="ray cast left" type="RayCast2D" parent="." unique_id=649220454]
+target_position = Vector2(-7, 0)
