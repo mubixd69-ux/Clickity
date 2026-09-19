@@ -5,7 +5,9 @@ RayCast2D
 CollisionShape2D
 AnimatedSprite2D
 Area2D
+RichTextLabel
 Sprite2D
+CollisionShape2D
 AnimatableBody2D
 AnimationPlayer
 TileMap

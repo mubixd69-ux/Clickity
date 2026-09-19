@@ -10,6 +10,12 @@
 [ext_resource type="Texture2D" uid="uid://x73i3ya8g162" path="res://Asset/basic yellow/button wide idle.png" id="6_21xkr"]
 [ext_resource type="Shader" uid="uid://baapo1sgcreq4" path="res://Scripts/Vigennete.gdshader" id="8_ynf5e"]
 [ext_resource type="Script" uid="uid://dhit2ysyhiej0" path="res://Scenes/rebirth_button.gd" id="10_hptm8"]
+[ext_resource type="Texture2D" uid="uid://ntrv0t2wkfuq" path="res://Asset/coffee_espresso.png" id="7_344ge"]
+[ext_resource type="Texture2D" uid="uid://cqnfwp7xng5em" path="res://Asset/coffee_tea.png" id="7_d1ilt"]
+[ext_resource type="Shader" uid="uid://baapo1sgcreq4" path="res://Scripts/Vigennete.gdshader" id="8_ynf5e"]
+[ext_resource type="Texture2D" uid="uid://dndeyecbirugc" path="res://Asset/coffee_greentea.png" id="9_6iyac"]
+[ext_resource type="FontFile" uid="uid://krv7o67j8v5t" path="res://Asset/fonts/PixelOperator8-Bold.ttf" id="10_6iyac"]
+[ext_resource type="FontFile" uid="uid://cv6wyl83yvyf7" path="res://Asset/fonts/PixelOperator8.ttf" id="11_fdnlq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e6q6n"]
 radius = 8.562824
@@ -83,6 +89,59 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
+[node name="Baguette_Text" type="RichTextLabel" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=1413959442]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 27.0
+offset_right = 505.99872
+offset_bottom = 91.0
+scale = Vector2(1.0116851, 0.9518455)
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("10_6iyac")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+
+[node name="Tea_Text" type="RichTextLabel" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=1908755233]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 78.0
+offset_top = 89.0
+offset_right = 505.99872
+offset_bottom = 153.0
+scale = Vector2(1.0116851, 0.9518455)
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("10_6iyac")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+
+[node name="Espresso_Text" type="RichTextLabel" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=738497937]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 153.0
+offset_right = 505.99872
+offset_bottom = 217.0
+scale = Vector2(1.0116851, 0.9518455)
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("10_6iyac")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+
+[node name="Matcha_Text" type="RichTextLabel" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=241551421]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 218.0
+offset_right = 505.99872
+offset_bottom = 282.0
+scale = Vector2(1.0116851, 0.9518455)
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("10_6iyac")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+
 [node name="Upgrades_container" type="Node2D" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=1161732494]
 
 [node name="clicks_upgrade" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=2072499672]
@@ -102,18 +161,55 @@ theme_override_font_sizes/font_size = 2
 flat = true
 metadata/_edit_use_anchors_ = true
 
-[node name="Auto_clicker" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=900901511]
+[node name="noob_auto" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=900901511]
 texture_filter = 1
 position = Vector2(11, 78)
 scale = Vector2(4, 4)
+texture = ExtResource("7_d1ilt")
 centered = false
 metadata/_edit_group_ = true
 
-[node name="Button2" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker" unique_id=1135174663]
+[node name="noob_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/noob_auto" unique_id=1135174663]
 z_index = 1
 offset_right = 61.25
 offset_bottom = 16.0
 mouse_filter = 1
+flat = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="pro_auto" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=1458398718]
+texture_filter = 1
+position = Vector2(11, 143)
+scale = Vector2(4, 4)
+texture = ExtResource("7_344ge")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="pro_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/pro_auto" unique_id=579250533]
+z_index = 1
+offset_right = 61.25
+offset_bottom = 16.0
+mouse_filter = 1
+flat = true
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="hacker_auto" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=1642315765]
+texture_filter = 1
+position = Vector2(11, 211)
+scale = Vector2(4, 4)
+texture = ExtResource("9_6iyac")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="hacker_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/hacker_auto" unique_id=1547214994]
+z_index = 1
+offset_right = 61.25
+offset_bottom = 16.0
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("11_fdnlq")
+theme_override_font_sizes/font_size = 13
 flat = true
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
@@ -176,10 +272,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -153.0
-offset_top = 61.0
-offset_right = 153.0
-offset_bottom = 109.0
+offset_left = -150.0
+offset_top = 33.0
+offset_right = 156.0
+offset_bottom = 81.0
 grow_horizontal = 2
 bbcode_enabled = true
 fit_content = true
@@ -220,7 +316,9 @@ script = ExtResource("10_hptm8")
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_exited"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade/Button" to="Clicker" method="_on_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/Auto_clicker/Button2" to="Clicker" method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/noob_auto/noob_button" to="Clicker" method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/pro_auto/pro_button" to="Clicker" method="_on_pro_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/hacker_auto/hacker_button" to="Clicker" method="_on_hacker_button_pressed"]
 [connection signal="pressed" from="Button1" to="Clicker" method="_on_button_1_pressed"]
 [connection signal="pressed" from="Button2" to="Clicker" method="_on_button_3_pressed"]
 [connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]

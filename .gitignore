@@ -37,3 +37,10 @@ Asset/coffee_espresso.png
 .godot/editor/filesystem_cache10
 *.bin
 .godot/editor/filesystem_cache10
+*.Node
+*.Node
+.godot/editor/create_recent.Node
+.godot/editor/favorites.Node
+.godot/editor/filesystem_cache10
+.godot/editor/filesystem_update4
+.godot/uid_cache.bin
