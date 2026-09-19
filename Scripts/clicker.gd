@@ -293,6 +293,7 @@ func _on_button_3_pressed() -> void:
 	falling_button3.visible = false
 	falling3 = false
 	
+	trigger_frenzy()
 	click_power *= 2
 	double_timer.start()
 	trigger_frenzy()
@@ -301,5 +302,6 @@ func _on_button_3_pressed() -> void:
 
 func _on_double_timer_timeout() -> void:
 	click_power /= 2
+	
 	double_rain_timer.start(randf_range(5.0, 20.0))
 	
