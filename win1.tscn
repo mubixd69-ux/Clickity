@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://btxnx5eyjdpys"]
 
+[ext_resource type="Script" uid="uid://dxbl1bdom0505" path="res://win_1.gd" id="1_d0y1j"]
 [ext_resource type="Texture2D" uid="uid://cnhtg0s8u3kra" path="res://Asset/sprites/Checkpoint (Flag Idle)(64x64).png" id="1_t4lok"]
 [ext_resource type="Texture2D" uid="uid://c65w5nvtblvmu" path="res://Asset/sprites/Checkpoint (Flag Out) (64x64).png" id="2_d0y1j"]
 
@@ -272,6 +273,7 @@ animations = [{
 radius = 15.033297
 
 [node name="Area2D" type="Area2D" unique_id=216186291]
+script = ExtResource("1_d0y1j")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1850980622]
 sprite_frames = SubResource("SpriteFrames_h621j")
@@ -282,3 +284,5 @@ frame_progress = 0.1504223
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2099820518]
 position = Vector2(2, 14)
 shape = SubResource("CircleShape2D_h621j")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
