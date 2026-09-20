@@ -4,18 +4,22 @@
 [ext_resource type="Script" uid="uid://c7ow0ntaecvlo" path="res://Scripts/sidebar.gd" id="2_344ge"]
 [ext_resource type="Texture2D" uid="uid://cm3oyp8g3lyex" path="res://Asset/pastry_bread.png" id="2_jjvhh"]
 [ext_resource type="Script" uid="uid://dp7bwnuc2i2qt" path="res://Scripts/clicker.gd" id="3_jjvhh"]
+[ext_resource type="AudioStream" uid="uid://c6oaqok1xtbq3" path="res://Asset/sounds/UI/click_double_off (mp3cut.net).wav" id="4_b3802"]
 [ext_resource type="Texture2D" uid="uid://d0s4ox0njxpec" path="res://Asset/pastry_baguette.png" id="4_kry3j"]
-[ext_resource type="AudioStream" uid="uid://cyx3iyexmtqcj" path="res://Asset/sounds/UI/select_1.wav" id="4_ynf5e"]
 [ext_resource type="Texture2D" uid="uid://dvoj78meanuit" path="res://Asset/coffee_darkroast.png" id="5_21xkr"]
 [ext_resource type="Texture2D" uid="uid://x73i3ya8g162" path="res://Asset/basic yellow/button wide idle.png" id="6_21xkr"]
+[ext_resource type="Texture2D" uid="uid://buc5s6xaaifsy" path="res://Asset/coffee_tea.png" id="7_d1ilt"]
 [ext_resource type="Shader" uid="uid://baapo1sgcreq4" path="res://Scripts/Vigennete.gdshader" id="8_ynf5e"]
+[ext_resource type="Texture2D" uid="uid://cm43sjltel8ts" path="res://Asset/coffee_greentea.png" id="9_6iyac"]
+[ext_resource type="FontFile" uid="uid://bmmuond44d8nr" path="res://Asset/fonts/PixelOperator8-Bold.ttf" id="10_6iyac"]
 [ext_resource type="Script" uid="uid://dhit2ysyhiej0" path="res://Scenes/rebirth_button.gd" id="10_hptm8"]
-[ext_resource type="Texture2D" uid="uid://ntrv0t2wkfuq" path="res://Asset/coffee_espresso.png" id="7_344ge"]
-[ext_resource type="Texture2D" uid="uid://cqnfwp7xng5em" path="res://Asset/coffee_tea.png" id="7_d1ilt"]
-[ext_resource type="Shader" uid="uid://baapo1sgcreq4" path="res://Scripts/Vigennete.gdshader" id="8_ynf5e"]
-[ext_resource type="Texture2D" uid="uid://dndeyecbirugc" path="res://Asset/coffee_greentea.png" id="9_6iyac"]
-[ext_resource type="FontFile" uid="uid://krv7o67j8v5t" path="res://Asset/fonts/PixelOperator8-Bold.ttf" id="10_6iyac"]
-[ext_resource type="FontFile" uid="uid://cv6wyl83yvyf7" path="res://Asset/fonts/PixelOperator8.ttf" id="11_fdnlq"]
+[ext_resource type="Texture2D" uid="uid://dw877lwhb60kr" path="res://Asset/coffee_espresso.png" id="10_k12tt"]
+[ext_resource type="FontFile" uid="uid://bt2q57qc0onco" path="res://Asset/fonts/PixelOperator8.ttf" id="11_fdnlq"]
+[ext_resource type="Texture2D" uid="uid://c8n2v287efbtg" path="res://Asset/cake_redvelvet.png" id="13_h1bgf"]
+[ext_resource type="Texture2D" uid="uid://t5mu4irwwafq" path="res://Asset/pastry_pretzel.png" id="15_h1bgf"]
+[ext_resource type="AudioStream" uid="uid://e20menmoq1sm" path="res://Asset/sounds/UI/pop_1.wav" id="16_fevyy"]
+[ext_resource type="Texture2D" uid="uid://bdsj202mblcww" path="res://Asset/pastry_croissant.png" id="18_b3802"]
+[ext_resource type="AudioStream" uid="uid://q4qeqilqsyd2" path="res://Asset/music/shop.wav" id="20_hibaj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e6q6n"]
 radius = 8.562824
@@ -41,7 +45,6 @@ position = Vector2(573, 301)
 scale = Vector2(16, 13.421)
 texture = ExtResource("2_jjvhh")
 script = ExtResource("3_jjvhh")
-metadata/_edit_group_ = true
 
 [node name="Area2D" type="Area2D" parent="Clicker" unique_id=1111278829]
 
@@ -49,7 +52,7 @@ metadata/_edit_group_ = true
 shape = SubResource("CircleShape2D_e6q6n")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Clicker" unique_id=466280681]
-stream = ExtResource("4_ynf5e")
+stream = ExtResource("4_b3802")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=840669931]
 layer = 0
@@ -142,11 +145,37 @@ theme_override_font_sizes/normal_font_size = 13
 bbcode_enabled = true
 scroll_active = false
 
+[node name="Rebirth_Text" type="RichTextLabel" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=469960023]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 353.0
+offset_right = 505.99872
+offset_bottom = 417.0
+scale = Vector2(1.0116851, 0.9518455)
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("10_6iyac")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+
+[node name="Minigame_Text" type="RichTextLabel" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=1124263726]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 293.0
+offset_right = 505.99872
+offset_bottom = 357.0
+scale = Vector2(1.0116851, 0.9518455)
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("10_6iyac")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+
 [node name="Upgrades_container" type="Node2D" parent="CanvasLayer/Sidebar/Upgrades_panel" unique_id=1161732494]
 
 [node name="clicks_upgrade" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=2072499672]
 texture_filter = 1
-position = Vector2(11, 12)
+position = Vector2(11, 15)
 scale = Vector2(4, 4)
 texture = ExtResource("4_kry3j")
 centered = false
@@ -154,6 +183,8 @@ metadata/_edit_group_ = true
 
 [node name="Button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/clicks_upgrade" unique_id=1522564580]
 z_index = 1
+anchors_preset = -1
+anchor_right = 5.953125
 offset_right = 103.0
 offset_bottom = 16.0
 mouse_filter = 1
@@ -180,14 +211,16 @@ metadata/_edit_use_anchors_ = true
 
 [node name="pro_auto" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=1458398718]
 texture_filter = 1
-position = Vector2(11, 143)
+position = Vector2(11, 144)
 scale = Vector2(4, 4)
-texture = ExtResource("7_344ge")
+texture = ExtResource("10_k12tt")
 centered = false
 metadata/_edit_group_ = true
 
 [node name="pro_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/pro_auto" unique_id=579250533]
 z_index = 1
+anchors_preset = -1
+anchor_right = 7.21875
 offset_right = 61.25
 offset_bottom = 16.0
 mouse_filter = 1
@@ -205,6 +238,8 @@ metadata/_edit_group_ = true
 
 [node name="hacker_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/hacker_auto" unique_id=1547214994]
 z_index = 1
+anchors_preset = -1
+anchor_right = 6.453125
 offset_right = 61.25
 offset_bottom = 16.0
 mouse_filter = 1
@@ -213,6 +248,37 @@ theme_override_font_sizes/font_size = 13
 flat = true
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
+
+[node name="rebirth" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=1259010626]
+position = Vector2(43, 379)
+scale = Vector2(4, 4)
+texture = ExtResource("13_h1bgf")
+metadata/_edit_group_ = true
+
+[node name="rebirth_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/rebirth" unique_id=695179202]
+offset_left = -7.25
+offset_top = -7.25
+offset_right = 168.75
+offset_bottom = 7.25
+flat = true
+script = ExtResource("10_hptm8")
+
+[node name="minigame" type="Sprite2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=977605412]
+position = Vector2(43, 315)
+scale = Vector2(4, 4)
+texture = ExtResource("15_h1bgf")
+metadata/_edit_group_ = true
+
+[node name="minigame_button" type="Button" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/minigame" unique_id=349693933]
+offset_left = -8.0
+offset_top = -7.0
+offset_right = 135.75
+offset_bottom = 7.0
+flat = true
+
+[node name="POP" type="AudioStreamPlayer2D" parent="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container" unique_id=181135811]
+stream = ExtResource("16_fevyy")
+volume_db = -4.832
 
 [node name="Flash_Overlay" type="ColorRect" parent="CanvasLayer" unique_id=1067288256]
 modulate = Color(1, 1, 1, 0)
@@ -301,16 +367,22 @@ position = Vector2(11, 10)
 texture = ExtResource("5_21xkr")
 metadata/_edit_group_ = true
 
-[node name="Button2" type="Button" parent="." unique_id=479346817]
-offset_right = 302.0
-offset_bottom = 199.0
+[node name="MultButton" type="Button" parent="." unique_id=479346817]
+offset_left = 330.0
+offset_top = 27.0
+offset_right = 346.0
+offset_bottom = 43.0
+scale = Vector2(6, 6)
+flat = true
 
-[node name="rebirth button" type="Button" parent="." unique_id=695179202]
-offset_left = 75.0
-offset_top = 305.0
-offset_right = 339.0
-offset_bottom = 559.0
-script = ExtResource("10_hptm8")
+[node name="Sprite2D" type="Sprite2D" parent="MultButton" unique_id=127925748]
+position = Vector2(8, 8)
+texture = ExtResource("18_b3802")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=24503744]
+stream = ExtResource("20_hibaj")
+volume_db = 9.584
+autoplay = true
 
 [connection signal="input_event" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_input_event"]
 [connection signal="mouse_entered" from="Clicker/Area2D" to="Clicker" method="_on_area_2d_mouse_entered"]
@@ -319,8 +391,8 @@ script = ExtResource("10_hptm8")
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/noob_auto/noob_button" to="Clicker" method="_on_button_2_pressed"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/pro_auto/pro_button" to="Clicker" method="_on_pro_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/hacker_auto/hacker_button" to="Clicker" method="_on_hacker_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/rebirth/rebirth_button" to="Clicker" method="_on_rebirth_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/rebirth/rebirth_button" to="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/rebirth/rebirth_button" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/minigame/minigame_button" to="Clicker" method="_on_minigame_button_pressed"]
 [connection signal="pressed" from="Button1" to="Clicker" method="_on_button_1_pressed"]
-[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_3_pressed"]
-[connection signal="pressed" from="Button2" to="Clicker" method="_on_button_2_pressed"]
-[connection signal="pressed" from="rebirth button" to="Clicker" method="_on_rebirth_button_pressed"]
-[connection signal="pressed" from="rebirth button" to="rebirth button" method="_on_pressed"]
+[connection signal="pressed" from="MultButton" to="Clicker" method="_on_button_3_pressed"]
