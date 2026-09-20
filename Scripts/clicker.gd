@@ -6,12 +6,16 @@ extends Sprite2D
 @onready var flash_overlay: ColorRect = $"../CanvasLayer/Flash_Overlay"
 @onready var vigenette_overlay: ColorRect = $"../CanvasLayer/Vigenette"
 @onready var upgrades_panel = $"../CanvasLayer/Sidebar"
-
-@onready var falling_button3 = $"../Button2"
+@onready var falling_button2 = $"../MultButton"
+@onready var falling_button1 = $"../Button1"
+var fall_speed = 250.0
+var fall_speed2 = 400.0
 var t1 = 0.0
 var t2 = 0.0
 
-var double_rain_timer = Timer
+var random_timer1 = randf_range(5, 15)
+var random_timer2 = randf_range(5, 15)
+
 var bounce: Tween
 var flash: Tween
 var score: Tween
@@ -24,7 +28,9 @@ var pro_upgrade_level: float = 0
 var hacker_auto_clicker_cost: int  = 1500
 var hacker_upgrade_level: float = 0
 var auto_clickers: int = 0
-var falling3 = false
+var minigame_cost = 500
+var falling1 = false
+var falling2 = false
 var double_clicks: bool = false
 var double_timer : Timer 
 var upgrade_cost: float = 10
@@ -42,24 +48,10 @@ var clicks_in_sample_window: float = 0.0
 var current_bpm: float = 0.0
 
 func spawn_falling_button2():
-	if falling3 or double_clicks:
-		return
 	falling_button2.visible = true
 	falling_button2.position.x = randf_range(0, 1000)
 	falling_button2.position.y = -100
-	falling = true
-
-func spawn_falling_button():
-	falling_button.visible = true
-	falling_button.position.x = randf_range(0, 1000)
-	falling_button.position.y = -100
-	falling = true
-
-func spawn_falling_button3():
-	falling_button3.visible = true
-	falling_button3.position.x = randf_range(0, 1000)
-	falling_button3.position.y = -100
-	falling3 = true
+	falling2 = true
 
 func _process(delta: float) -> void:
 	if current_sample_window_time <= 0:
@@ -69,17 +61,36 @@ func _process(delta: float) -> void:
 		update_bpm_ui()
 	else:
 		current_sample_window_time -= delta
-		print(clicks_in_sample_window)
 	
-	if falling:
-		falling_button.position.y += fall_speed * delta
+	if falling1:
+		falling_button1.position.y += fall_speed * delta
 		t1 += delta*5
-		falling_button.position.x += sin(t1)*2
+		falling_button1.position.x += sin(t1)*2
 	
-	if falling3:
-		falling_button3.position.y += fall_speed2 * delta
+	if falling2:
+		falling_button2.position.y += fall_speed2 * delta
 		t2 += delta*5	
-		falling_button.position.x += sin(t2)*2
+		falling_button2.position.x += sin(t2)*2
+		
+	if random_timer1 > 0:
+		random_timer1 -= delta
+	else:
+		random_timer1 = randf_range(5,15)
+		if not falling1: 
+			falling_button1.visible = true
+			falling_button1.position.x = randf_range(0, 1000)
+			falling_button1.position.y = -100
+			falling1 = true
+			
+	if random_timer2 > 0:
+		random_timer2 -= delta
+	else:
+		random_timer2 = randf_range(5,15)
+		if not falling1: 
+			falling_button2.visible = true
+			falling_button2.position.x = randf_range(0, 1000)
+			falling_button2.position.y = -100
+			falling2 = true
 
 func update_score_ui() -> void:
 	if not score_label:
@@ -106,24 +117,16 @@ func update_bpm_ui() -> void:
 
 
 func _ready() -> void:
+	
+	clicks = GlobalManager.clicks
+	
 	var auto_timer := Timer.new()
 	auto_timer.wait_time = 1.0
 	auto_timer.autostart = true
 	auto_timer.timeout.connect(auto_click)
 	add_child(auto_timer)
 
-	double_rain_timer = Timer.new()
-	double_rain_timer.one_shot = true
-	double_rain_timer.timeout.connect(spawn_falling_button3)
-	add_child(double_rain_timer)
-
-	double_rain_timer.start(randf_range(5.0, 20.0))
-
-	var random_timer := Timer.new()
-	random_timer.wait_time = randf_range(0.5, 15.0)
-	random_timer.autostart = true
-	random_timer.timeout.connect(spawn_falling_button)
-	add_child(random_timer)
+	
 
 	double_timer = Timer.new()
 	double_timer.wait_time = 7.5
@@ -131,13 +134,8 @@ func _ready() -> void:
 	double_timer.timeout.connect(_on_double_timer_timeout)
 	add_child(double_timer)
 
-	var random_timer2 := Timer.new()
-	random_timer2.wait_time = randf_range(0.5, 40.0)
-	random_timer2.autostart = true
-	random_timer2.timeout.connect(spawn_falling_button2)
-	add_child(random_timer2)
-
-	falling_button3.visible = false
+	falling_button1.visible = false
+	falling_button2.visible = false
 
 	base_scale = sprite.scale
 	
@@ -147,18 +145,20 @@ func _ready() -> void:
 		update_score_ui()
 		update_bpm_ui()
 	
-	falling_button.visible = false
-	
 	update_tea_panel()
 	update_baguette_panel()
 	update_espresso_panel()
 	update_matcha_panel()
+	upgrades_panel.update_minigame_ui(minigame_cost)
+	
+	update_score_ui()
 
 func add_bread(amount: int) -> void:
 	if double_clicks:
 		amount *= 2
 
 	clicks += amount
+	GlobalManager.clicks = clicks
 	clicks_in_sample_window += amount
 	update_score_ui()
 	update_baguette_panel()
@@ -258,7 +258,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 			animate()
 			spawn_label()
 			update_score_ui()
-			
+			$AudioStreamPlayer2D.play()
 
 func _on_button_pressed() -> void:
 	print("BUTTON CLICKED")
@@ -268,7 +268,6 @@ func _on_button_pressed() -> void:
 
 	if clicks >= upgrade_cost:
 		var spent: int = int(upgrade_cost)
-		print("ENOUGH BREAD")
 		clicks -= upgrade_cost
 		click_power += 1
 		spawn_cost_label(spent)
@@ -277,9 +276,7 @@ func _on_button_pressed() -> void:
 		$"../Label".text = str(upgrade_cost)
 		update_score_ui()
 		update_baguette_panel()
-	else:
-		print("NOT ENOUGH BREAD")
-		
+		$"../CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/POP".play()
 		
 
 func auto_click():
@@ -293,10 +290,10 @@ const max_noob_level: int = 100
 
 func _on_button_2_pressed() -> void:
 	if noob_upgrade_level >= max_noob_level:
-		print("max level")
 		return
 		
 	if clicks >= noob_auto_clicker_cost:
+		$"../CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/POP".play()
 		var spent: int = int(noob_auto_clicker_cost)
 		clicks -= noob_auto_clicker_cost
 		spawn_cost_label(spent)
@@ -305,24 +302,12 @@ func _on_button_2_pressed() -> void:
 		auto_clickers += 1
 		update_score_ui()
 		update_tea_panel()
-		
-		
-		
-		
-		
-
-@onready var falling_button = $"../Button1"
-@onready var falling_button2 = $"../Button2"
-
-var falling = false
-var fall_speed = 250.0
-var fall_speed2 = 400.0
-
-
+	
 
 func _on_button_1_pressed() -> void:
 	clicks += 10 * upgrade_level
-	falling_button.visible = false
+	falling_button1.visible = false
+	falling1 = false
 	update_score_ui()
 	
 
@@ -330,7 +315,6 @@ var frenzy_duration: float = 6.0
 
 func trigger_frenzy() -> void:
 	var sequence := create_tween()
-	
 	sequence.tween_property(flash_overlay, "modulate:a", 1.0, 0.15)\
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
@@ -339,43 +323,36 @@ func trigger_frenzy() -> void:
 	
 	sequence.tween_property(vigenette_overlay, "modulate:a", 1.0, 0.35)\
 		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	
 	sequence.tween_interval(frenzy_duration)
 	
 	sequence.tween_property(flash_overlay, "modulate:a", 1.0, 0.15)\
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
-	
+	sequence.parallel().tween_property(vigenette_overlay, "modulate:a", 0.0, 0.0)\
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	sequence.tween_property(flash_overlay, "modulate:a", 0.0, 0.35)\
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	sequence.parallel().tween_property(vigenette_overlay, "modulate:a", 0.0, 0.5)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-
+	
 func _on_button_3_pressed() -> void:
-	falling_button3.visible = false
-	falling3 = false
+	falling_button2.visible = false
+	falling2 = false
 	
 	trigger_frenzy()
 	click_power *= 2
-	double_timer.start()
 	trigger_frenzy()
-	
 
 
 func _on_double_timer_timeout() -> void:
 	click_power /= 2
-	
-	double_rain_timer.start(randf_range(5.0, 20.0))
-	
 
 const  max_pro_level: int = 3
 
 func _on_pro_button_pressed() -> void:
 	if pro_upgrade_level >= max_pro_level:
-		print("max level")
 		return
 		
 	if clicks >= pro_auto_clicker_cost:
+		$"../CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/POP".play()
 		var spent: int = int(pro_auto_clicker_cost)
 		clicks -= pro_auto_clicker_cost
 		spawn_cost_label(spent)
@@ -387,13 +364,21 @@ const max_hacker_level: int = 3
 
 func _on_hacker_button_pressed() -> void:
 	if hacker_upgrade_level >= max_hacker_level:
-		print("max level")
 		return
 		
 	if clicks >= hacker_auto_clicker_cost:
+		$"../CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/POP".play()
 		var spent: int = int(hacker_auto_clicker_cost)
 		clicks -= hacker_auto_clicker_cost
 		spawn_cost_label(spent)
 		hacker_upgrade_level += 1
 		auto_clickers += 10
 		update_score_ui()
+
+
+func _on_minigame_button_pressed() -> void:
+	if clicks >= minigame_cost:
+		$"../CanvasLayer/Sidebar/Upgrades_panel/Upgrades_container/POP".play()
+		clicks -= minigame_cost
+		print(1)
+		Sidetransition.change_scene("res://platformer.tscn")
