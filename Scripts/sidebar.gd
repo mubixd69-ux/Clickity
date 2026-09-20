@@ -101,7 +101,7 @@ func update_rebirth_ui(cost: float, rebirth_count: int) -> void:
 	if not is_node_ready():
 		await ready
 	if rebirth_label:
-		var discount_percent: int = rebirth_count * 5
+		var discount_percent: int = rebirth_count * 10
 		rebirth_label.text = "[b]Rebirth (" + str(rebirth_count) + "/10): " + str(discount_percent) + "% discount[/b]\n-------------------------\nPRICE: " + str(int(cost))
 func update_minigame_ui(cost: float) -> void:
 	if not is_node_ready():
