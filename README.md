@@ -1,5 +1,7 @@
-# Bread Clicker
+# Clickity
 A simple 2D clicker game made in Godot 4. Click the bread, buy upgrades, and rebirth to get stackable discounts.
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1d8f75a3-5350-4787-ab39-6c2dac7ad985" />
 
 
 # Where to play?
